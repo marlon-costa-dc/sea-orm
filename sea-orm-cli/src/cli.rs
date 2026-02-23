@@ -410,6 +410,7 @@ pub enum BannerVersion {
     Patch,
 }
 
+#[cfg(feature = "codegen")]
 fn is_deprecated_preserve_user_modifications_flag(arg: &OsStr) -> bool {
     arg.to_str()
         .is_some_and(|arg| arg.starts_with("--preserve-user-modifications"))
