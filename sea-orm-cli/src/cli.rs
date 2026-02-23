@@ -1,6 +1,7 @@
 use clap::{ArgAction, ArgGroup, Parser, Subcommand, ValueEnum};
 #[cfg(feature = "codegen")]
 use dotenvy::dotenv;
+#[cfg(feature = "codegen")]
 use std::ffi::OsStr;
 
 #[cfg(feature = "codegen")]
