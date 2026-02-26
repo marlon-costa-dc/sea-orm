@@ -137,6 +137,7 @@ impl SqlxMySqlPoolConnection {
     }
 
     /// Execute an unprepared SQL statement on a MySQL backend
+    #[allow(tail_expr_drop_order)]
     #[instrument(level = "trace")]
     pub async fn execute_unprepared(&self, sql: &str) -> Result<ExecResult, DbErr> {
         debug_print!("{}", sql);

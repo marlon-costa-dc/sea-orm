@@ -227,6 +227,7 @@ where
     /// # Ok(())
     /// # }
     /// ```
+    #[allow(tail_expr_drop_order)]
     pub fn into_stream(self) -> PinBoxStream<'db, Result<Vec<S::Item>, DbErr>> {
         #[cfg(not(feature = "sync"))]
         {
