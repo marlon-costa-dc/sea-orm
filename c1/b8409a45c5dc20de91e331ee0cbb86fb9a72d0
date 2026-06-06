@@ -1,0 +1,39 @@
+sea-orm-arrow/Cargo.toml
+  s_f1e46703a06425::t_1f4c05c46a703e 17
+sea-orm-cli/Cargo.toml
+  s_f1e46703a06425::t_eff2f24429111f 131-135
+  s_f1e46703a06425::t_bb735a0e546220 33
+  s_f1e46703a06425::t_c573bc83bff7c3 50
+sea-orm-codegen/Cargo.toml
+  s_f1e46703a06425::t_2ec935c94aad35 27
+sea-orm-cli/src/bin/sea.rs
+  s_f1e46703a06425::t_bb735a0e546220 1
+Cargo.toml
+  s_f1e46703a06425::t_fa669723892432 65,73-74,241-245
+src/database/sea_schema_shim.rs
+  s_64c182eb86dc9e::t_0fbf09db0f24ae 10,27,44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "c1b8409a45c5dc20de91e331ee0cbb86fb9a72d0",
+  "prompts": {},
+  "sessions": {
+    "s_64c182eb86dc9e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e9a50-f152-74c2-bc71-2f973915b762",
+        "model": "gpt-5.5"
+      },
+      "human_author": "Zed <hi@zed.dev>"
+    },
+    "s_f1e46703a06425": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e9a51-a958-7913-a420-730183a6b10f",
+        "model": "gpt-5.5"
+      },
+      "human_author": "Zed <hi@zed.dev>"
+    }
+  }
+}
