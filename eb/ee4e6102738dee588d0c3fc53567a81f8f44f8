@@ -1,0 +1,444 @@
+sea-orm-sync/tests/transaction_tests.rs
+  s_f1e46703a06425::t_7996556e691b0d 7-10,950-980
+changelog/2.0.0-rc.38.md
+  s_f1e46703a06425::t_7996556e691b0d 1-84
+src/driver/sqlx_mysql.rs
+  s_f1e46703a06425::t_7996556e691b0d 85-92,94,357
+examples/loco_seaography/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 40
+src/entity/active_model.rs
+  s_f1e46703a06425::t_7996556e691b0d 1108-1191,1475-1951
+sea-orm-sync/tests/common/sakila/entities.mermaid
+  s_f1e46703a06425::t_7996556e691b0d 1-145
+src/query/select.rs
+  s_f1e46703a06425::t_7996556e691b0d 7,20,42-52,187-198,236-241,332
+sea-orm-macros/src/derives/active_enum.rs
+  s_f1e46703a06425::t_7996556e691b0d 11-12,15-16,20-114,134-135,146,149,166-168,267-271,285,287-288,290,292,294,297-394,396-510,515-679,733,743,752-758,774,778,780,782,784,786,795,804
+changelog/2.0.0-rc.27.md
+  s_f1e46703a06425::t_7996556e691b0d 1-9
+sea-orm-arrow/src/lib.rs
+  s_f1e46703a06425::t_7996556e691b0d 148-149,213-233,248-254,263,269-307,649,843-864,930-941,1125-1148,1222-1233,1424-1459
+src/driver/sqlx_postgres.rs
+  s_f1e46703a06425::t_7996556e691b0d 84-87,113,126-128,397,633,639-642,826-827,852-853,858
+sea-orm-codegen/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 13
+changelog/2.0.0-rc.29.md
+  s_f1e46703a06425::t_7996556e691b0d 1-57
+examples/rocket_example/api/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 35
+sea-orm-sync/src/docs.rs
+  s_f1e46703a06425::t_7996556e691b0d 85
+sea-orm-sync/tests/common/bakery_dense/entities.mermaid
+  s_f1e46703a06425::t_7996556e691b0d 1-52
+sea-orm-sync/src/lib.rs
+  s_f1e46703a06425::t_7996556e691b0d 176,233,273,298,340,399,421,450,496,533,592-593
+src/executor/select.rs
+  s_f1e46703a06425::t_7996556e691b0d 6-7,85,95-104,218-232,681-757
+sea-orm-sync/src/entity/active_model.rs
+  s_f1e46703a06425::t_7996556e691b0d 1097-1180,1461-1937
+examples/graphql_example/api/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 27
+sea-orm-sync/src/entity/column.rs
+  s_f1e46703a06425::t_7996556e691b0d 620-630
+tests/transaction_tests.rs
+  s_f1e46703a06425::t_7996556e691b0d 7-10,1024-1057
+examples/poem_example/entity/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 17
+sea-orm-sync/tests/schema_sync_tests.rs
+  s_f1e46703a06425::t_7996556e691b0d 1-370
+examples/seaography_example/graphql/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 27-29
+src/executor/query.rs
+  s_f1e46703a06425::t_7996556e691b0d 6-12,20,84-114,917-919,1140-1142,1573-1591,1713-1715,1719,1721-1724,1816,1823-1882
+sea-orm-sync/examples/parquet_example/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 15,25-26
+changelog/2.0.0-rc.36.md
+  s_f1e46703a06425::t_7996556e691b0d 1-51
+examples/axum_example/api/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 33
+examples/seaography_example/migration/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 19,27-29
+examples/loco_seaography/migration/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 23
+examples/salvo_example/entity/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 17
+sea-orm-macros/src/derives/model.rs
+  s_f1e46703a06425::t_7996556e691b0d 10,156-157,161,261-323
+sea-orm-macros/src/derives/into_active_model.rs
+  s_f1e46703a06425::t_7996556e691b0d 12-30,32,34,36-41,45-53,64-65,72-76,79,83-104,109-115,121-122,132,138-139,146,167-184,186,190-196,204-206,214-268
+tests/common/sakila/NOTES.md
+  s_f1e46703a06425::t_7996556e691b0d 1-4
+examples/proxy_cloudflare_worker_example/src/utility.rs
+  s_f1e46703a06425::t_7996556e691b0d 1-25
+examples/rocket_example/migration/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 23
+README-zh.md
+  s_f1e46703a06425::t_7996556e691b0d 3,5-6,10-11,15,17,19,21,23,25-33,37-40,44,48,53,55-56,58,60-99,101-140,142-145,147-160,162,164,166-168,171-174,176,178-194,197-204,206-207,214,223,225-227,229-234,237-238,248,251-253,259-261,265,273-279,281-282,287,289,295,300,310-312,319,321,324-325,327-328,333,344,347,351,353,358-365,367,372-403,407-410,416,418-420,427-428,430,435,437,439-441,445,447-460,462-464,470-473,487-503,506,517,521,539-540,543-546
+examples/salvo_example/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 13-14
+examples/quickstart/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 25-26
+examples/graphql_example/entity/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 20
+examples/rocket_example/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 14-15
+sea-orm-macros/src/derives/typed_column.rs
+  s_f1e46703a06425::t_7996556e691b0d 7,10-13,27,29-30,103,112
+sea-orm-sync/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 16,25,28,47,54,57,65,74,127,147,149,177,181-184
+examples/react_admin/backend/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 47
+sea-orm-sync/examples/pi_spigot/README.md
+  s_f1e46703a06425::t_7996556e691b0d 1,3-5,7-9,11-133
+sea-orm-sync/examples/pi_spigot/bdigits.html
+  s_f1e46703a06425::t_7996556e691b0d 1-224
+sea-orm-cli/src/commands/generate.rs
+  s_f1e46703a06425::t_7996556e691b0d 47,254,259-266
+sea-orm-sync/src/entity/active_value.rs
+  s_f1e46703a06425::t_7996556e691b0d 63,72,328,332,336,346-353,358,371,375,378,389-394
+sea-orm-sync/tests/arrow_schema_tests.rs
+  s_f1e46703a06425::t_7996556e691b0d 30-45,576-578,582,584,783-784
+sea-orm-sync/examples/pi_spigot/src/main.rs
+  s_f1e46703a06425::t_7996556e691b0d 1-18,21-22,24,26,28-31,33-34
+examples/loco_starter/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 37
+sea-orm-sync/tests/common/sakila/NOTES.md
+  s_f1e46703a06425::t_7996556e691b0d 1-4
+src/database/restricted_connection.rs
+  s_f1e46703a06425::t_7996556e691b0d 6-14,242-253,321-331
+examples/axum_example/migration/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 23
+src/database/db_connection.rs
+  s_f1e46703a06425::t_7996556e691b0d 4,360-362,364,394-423,426-434,437
+sea-orm-codegen/src/entity/writer.rs
+  s_f1e46703a06425::t_7996556e691b0d 13
+src/schema/builder.rs
+  s_f1e46703a06425::t_7996556e691b0d 4-5,19-21,100-118,121-123,139-162,165-167,184-188,190-192,208-212,214-216,300-338,348,382,386,399-400,475-514,529-532,534-566,568-571
+sea-orm-sync/src/query/combine.rs
+  s_f1e46703a06425::t_7996556e691b0d 3,107-115,171-188
+examples/loco_example/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 36
+src/database/sea_schema_shim.rs
+  s_f1e46703a06425::t_7996556e691b0d 54-56,68
+tests/active_enum_tests.rs
+  s_f1e46703a06425::t_7996556e691b0d 202,237
+changelog/2.0.0-rc.26.md
+  s_f1e46703a06425::t_7996556e691b0d 1-9
+sea-orm-codegen/src/entity/active_enum.rs
+  s_f1e46703a06425::t_7996556e691b0d 88,128,171,228,260,289,336
+build-tools/make-sync.sh
+  s_f1e46703a06425::t_7996556e691b0d 1-22,27,30-89
+sea-orm-migration/tests/main.rs
+  s_f1e46703a06425::t_7996556e691b0d 7,48-49,53-57,68,77,100,102-114,168-170,191-194,225-229,233,250-251,253,295-372
+sea-orm-sync/README.md
+  s_f1e46703a06425::t_7996556e691b0d 458
+sea-orm-sync/src/entity/active_enum.rs
+  s_f1e46703a06425::t_7996556e691b0d 138-142,204-239
+tests/arrow_schema_tests.rs
+  s_f1e46703a06425::t_7996556e691b0d 30-45,576-578,582,584,783-784
+sea-orm-sync/src/database/sea_schema_shim.rs
+  s_f1e46703a06425::t_7996556e691b0d 45-47,59
+sea-orm-sync/tests/active_enum_from_query_result_tests.rs
+  s_f1e46703a06425::t_7996556e691b0d 1-217
+src/database/connection.rs
+  s_f1e46703a06425::t_7996556e691b0d 1-4,130-166,185-189
+src/database/transaction.rs
+  s_f1e46703a06425::t_7996556e691b0d 2-8,11-12,42,97-106,111,619,636-652
+sea-orm-macros/src/derives/partial_model.rs
+  s_f1e46703a06425::t_7996556e691b0d 11,238,241-242
+sea-orm-sync/src/executor/query.rs
+  s_f1e46703a06425::t_7996556e691b0d 6-12,20,84-114,917-919,1140-1142,1337,1571-1589,1711-1713,1717,1719-1722,1814,1821-1880
+examples/jsonrpsee_example/migration/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 23
+tests/common/bakery_dense/entities.mermaid
+  s_f1e46703a06425::t_7996556e691b0d 1-52
+changelog/2.0.0-rc.22.md
+  s_f1e46703a06425::t_7996556e691b0d 1-38
+examples/proxy_cloudflare_worker_example/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 2,25-26,29
+examples/rocket_okapi_example/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 17-18
+sea-orm-sync/src/database/db_connection.rs
+  s_f1e46703a06425::t_7996556e691b0d 4,332,334,364,368-393,396-406
+examples/rocket_okapi_example/entity/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 17
+changelog/2.0.0-rc.20.md
+  s_f1e46703a06425::t_7996556e691b0d 1-49
+sea-orm-macros/src/derives/value_type.rs
+  s_f1e46703a06425::t_7996556e691b0d 142,144-145
+tests/common/sakila/entities.mermaid
+  s_f1e46703a06425::t_7996556e691b0d 1-145
+sea-orm-sync/src/entity/base_entity.rs
+  s_f1e46703a06425::t_7996556e691b0d 450,499,643,827,929
+sea-orm-cli/src/cli.rs
+  s_f1e46703a06425::t_7996556e691b0d 388-394
+examples/rocket_okapi_example/migration/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 23
+sea-orm-sync/src/driver/sqlx_mysql.rs
+  s_f1e46703a06425::t_7996556e691b0d 85-92,94,349
+src/lib.rs
+  s_f1e46703a06425::t_7996556e691b0d 603-604
+sea-orm-sync/src/database/tracing_spans.rs
+  s_f1e46703a06425::t_7996556e691b0d 123
+examples/react_admin/backend/migration/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 23
+sea-orm-migration/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 16,26,29,42
+  s_64c182eb86dc9e::t_5bb19b046d839c 30
+sea-orm-migration/tests/postgres.rs
+  s_f1e46703a06425::t_7996556e691b0d 9
+sea-orm-migration/tests/common/migration/mod.rs
+  s_f1e46703a06425::t_7996556e691b0d 7-8
+tests/schema_sync_tests.rs
+  s_f1e46703a06425::t_7996556e691b0d 1-395
+sea-orm-sync/src/driver/mock.rs
+  s_f1e46703a06425::t_7996556e691b0d 275
+sea-orm-sync/src/schema/builder.rs
+  s_f1e46703a06425::t_7996556e691b0d 4-5,19-21,98-116,119-121,136-159,162-164,180-184,186-188,204-208,210-212,296-334,344,378,382,395-396,469-507,522-538,540-562
+src/driver/rusqlite.rs
+  s_f1e46703a06425::t_7996556e691b0d 10,20-21,202-240,255,416,425,441,594-597,599-604
+sea-orm-sync/tests/common/bakery_dense/NOTES.md
+  s_f1e46703a06425::t_7996556e691b0d 1-4
+changelog/2.0.0-rc.24.md
+  s_f1e46703a06425::t_7996556e691b0d 1-8
+sea-orm-sync/src/executor/select/three.rs
+  s_f1e46703a06425::t_7996556e691b0d 204,212
+examples/salvo_example/api/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 26
+src/entity/column.rs
+  s_f1e46703a06425::t_7996556e691b0d 620-630
+sea-orm-sync/src/driver/rusqlite.rs
+  s_f1e46703a06425::t_7996556e691b0d 10,20-21,202-240,255,416,425,441,594-597,599-604
+changelog/2.0.0-rc.31.md
+  s_f1e46703a06425::t_7996556e691b0d 1-45
+sea-orm-migration/tests/common/migration/m20250101_000001_create_test_table.rs
+  s_f1e46703a06425::t_7996556e691b0d 1-63
+sea-orm-sync/src/driver/proxy.rs
+  s_f1e46703a06425::t_7996556e691b0d 154
+sea-orm-migration/tests/common/migration/m20250101_000002_manual_transaction.rs
+  s_f1e46703a06425::t_7996556e691b0d 1-50
+sea-orm-sync/src/query/join.rs
+  s_f1e46703a06425::t_7996556e691b0d 3-4,66-72
+examples/actix_example/entity/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 17
+examples/parquet_example/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 15,27-28
+tests/arrow_tests.rs
+  s_f1e46703a06425::t_7996556e691b0d 1355-1414,1425-1434,1442,1445,1615-1675,1686-1695,1703,1706,1709
+examples/proxy_cloudflare_worker_example/src/d1bridge.rs
+  s_f1e46703a06425::t_7996556e691b0d 1-135
+sea-orm-sync/src/database/restricted_connection.rs
+  s_f1e46703a06425::t_7996556e691b0d 6-14,236-247,305-312
+sea-orm-sync/src/driver/sqlx_sqlite.rs
+  s_f1e46703a06425::t_7996556e691b0d 17-18,94-96,98-103,105,223,231,253,366,374
+sea-orm-sync/src/executor/select.rs
+  s_f1e46703a06425::t_7996556e691b0d 6-7,84,94-103,217-231,332,381,436,479,672-750,856,987,1035
+src/query/join.rs
+  s_f1e46703a06425::t_7996556e691b0d 3-4,66-72
+CHANGELOG.md
+  s_f1e46703a06425::t_7996556e691b0d 10-30,689-690
+changelog/2.0.0-rc.25.md
+  s_f1e46703a06425::t_7996556e691b0d 1-18
+examples/loco_example/migration/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 23
+sea-orm-macros/tests/derive_active_enum_test.rs
+  s_f1e46703a06425::t_7996556e691b0d 1,38-43,46,51-52,158-161,165-220
+sea-orm-sync/tests/common/features/sea_orm_active_enums.rs
+  s_f1e46703a06425::t_7996556e691b0d 21-22,24
+sea-orm-cli/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 20,49
+examples/tonic_example/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 25-26
+sea-orm-macros/src/lib.rs
+  s_f1e46703a06425::t_7996556e691b0d 15-22,150-154,161,172,185-189,196,206-210,217,469-471,473,479-591,686,690,695-697
+examples/jsonrpsee_example/api/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 30
+sea-orm-sync/examples/pi_spigot/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 9
+sea-orm-sync/tests/partial_model_tests.rs
+  s_f1e46703a06425::t_7996556e691b0d 134-195
+changelog/2.0.0-rc.28.md
+  s_f1e46703a06425::t_7996556e691b0d 1-37
+sea-orm-macros/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 13,50
+src/database/executor.rs
+  s_f1e46703a06425::t_7996556e691b0d 3-4,10-11,18-19,40,48,56,64,72,85,101-114,130,158-162,194-199,201-208
+sea-orm-codegen/src/entity/writer/mermaid.rs
+  s_f1e46703a06425::t_7996556e691b0d 1-404
+sea-orm-macros/src/derives/entity_model.rs
+  s_f1e46703a06425::t_7996556e691b0d 11-12,64-68,146,408,410-411,551,598
+sea-orm-sync/src/query/select.rs
+  s_f1e46703a06425::t_7996556e691b0d 7,20,42-52,187-198,236-241,332
+examples/proxy_cloudflare_worker_example/wrangler.toml
+  s_f1e46703a06425::t_7996556e691b0d 1-12
+changelog/2.0.0-rc.32.md
+  s_f1e46703a06425::t_7996556e691b0d 1-17
+README.md
+  s_f1e46703a06425::t_7996556e691b0d 459-460
+examples/actix_example/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 14-15
+sea-orm-arrow/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 13,16
+sea-orm-sync/src/entity/ARROW.md
+  s_f1e46703a06425::t_7996556e691b0d 1-296
+examples/poem_example/migration/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 23
+sea-orm-macros/src/derives/entity_loader.rs
+  s_f1e46703a06425::t_7996556e691b0d 4,22,324,332,340,346,367
+src/entity/active_enum.rs
+  s_f1e46703a06425::t_7996556e691b0d 138-142,204-239
+examples/tonic_example/api/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 25
+src/entity/active_value.rs
+  s_f1e46703a06425::t_7996556e691b0d 63,72,328,332,336,346-353,358,371,375,378,389-394
+src/dynamic/model.rs
+  s_f1e46703a06425::t_7996556e691b0d 85-96,150-152
+changelog/2.0.0-rc.21.md
+  s_f1e46703a06425::t_7996556e691b0d 1-31
+sea-orm-sync/src/entity/model.rs
+  s_f1e46703a06425::t_7996556e691b0d 170
+changelog/2.0.0-rc.23.md
+  s_f1e46703a06425::t_7996556e691b0d 1-45
+tests/active_enum_from_query_result_tests.rs
+  s_f1e46703a06425::t_7996556e691b0d 1-222
+tests/common/bakery_dense/NOTES.md
+  s_f1e46703a06425::t_7996556e691b0d 1-4
+src/driver/sqlx_sqlite.rs
+  s_f1e46703a06425::t_7996556e691b0d 17-18,94-96,98-103,105,225,233,260,375,383
+examples/proxy_cloudflare_worker_example/src/route.rs
+  s_f1e46703a06425::t_7996556e691b0d 8,11,13-15,17-20,29,31-33,36,38-40,46,48-50,58-61
+src/entity/ARROW.md
+  s_f1e46703a06425::t_7996556e691b0d 9-18,24-25,27,46-48,75-85,95,106-111,116,121
+tests/partial_model_tests.rs
+  s_f1e46703a06425::t_7996556e691b0d 135-197
+sea-orm-macros/src/derives/active_model.rs
+  s_f1e46703a06425::t_7996556e691b0d 7,11,18,69,79,85,284-289
+examples/axum_example/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 14-15
+examples/rocket_example/entity/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 17
+examples/salvo_example/migration/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 23
+sea-orm-sync/examples/pi_spigot/src/lib.rs
+  s_f1e46703a06425::t_7996556e691b0d 1-336
+src/driver/proxy.rs
+  s_f1e46703a06425::t_7996556e691b0d 154
+changelog/2.0.0-rc.37.md
+  s_f1e46703a06425::t_7996556e691b0d 1-71
+sea-orm-sync/src/dynamic/model.rs
+  s_f1e46703a06425::t_7996556e691b0d 85-96,150-152
+sea-orm-sync/src/database/mod.rs
+  s_f1e46703a06425::t_7996556e691b0d 3,57-69,105-106,116-124,240,245-250,406-422,463-475,488-500,512-522
+examples/jsonrpsee_example/entity/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 17
+sea-orm-macros/src/derives/model_ex.rs
+  s_f1e46703a06425::t_7996556e691b0d 10,114,116-117,145,177,179-180,380,393,402,406
+examples/actix_example/migration/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 23
+sea-orm-migration/src/lib.rs
+  s_f1e46703a06425::t_7996556e691b0d 34-42
+sea-orm-migration/tests/common/migrator/transaction_test.rs
+  s_f1e46703a06425::t_7996556e691b0d 1-26
+sea-orm-sync/tests/arrow_tests.rs
+  s_f1e46703a06425::t_7996556e691b0d 1355-1414,1425-1434,1442,1445,1615-1675,1686-1695,1703,1706,1709
+sea-orm-sync/tests/relational_tests.rs
+  s_f1e46703a06425::t_7996556e691b0d 270-350
+tests/common/features/sea_orm_active_enums.rs
+  s_f1e46703a06425::t_7996556e691b0d 21-22,24
+tests/relational_tests.rs
+  s_f1e46703a06425::t_7996556e691b0d 291-377
+examples/poem_example/api/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 26
+src/query/combine.rs
+  s_f1e46703a06425::t_7996556e691b0d 3,107-115,171-188
+examples/actix_example/api/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 32
+sea-orm-sync/CLAUDE.md
+  s_f1e46703a06425::t_7996556e691b0d 1-29
+sea-orm-sync/src/database/executor.rs
+  s_f1e46703a06425::t_7996556e691b0d 3-4,10-11,18-19,39,47,55,63,71,83,99-112,124,145-147,179-184,186-193
+sea-orm-sync/src/database/connection.rs
+  s_f1e46703a06425::t_7996556e691b0d 119-155,173-175
+sea-orm-sync/tests/active_enum_tests.rs
+  s_f1e46703a06425::t_7996556e691b0d 195,229
+src/driver/mock.rs
+  s_f1e46703a06425::t_7996556e691b0d 276
+examples/rocket_okapi_example/service/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 20
+changelog/2.0.0-rc.35.md
+  s_f1e46703a06425::t_7996556e691b0d 1-159
+sea-orm-sync/src/driver/sqlx_postgres.rs
+  s_f1e46703a06425::t_7996556e691b0d 84-87,113,122-124,384,619,625-628,812-813,838-839,844
+examples/graphql_example/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 15-16
+examples/axum_example/entity/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 17
+examples/basic/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 19-20
+examples/proxy_gluesql_example/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 34-35
+src/database/mod.rs
+  s_f1e46703a06425::t_7996556e691b0d 3,58-80,119-120,130-138,256,261-266,422-438,479-493,506-520,532-544
+changelog/2.0.0-rc.30.md
+  s_f1e46703a06425::t_7996556e691b0d 1-13
+examples/graphql_example/migration/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 23
+examples/poem_example/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 13-14
+sea-orm-migration/src/migrator/with_self.rs
+  s_f1e46703a06425::t_7996556e691b0d 4,108-110,118-121,129-132,141-143,151-153,161-163
+examples/proxy_cloudflare_worker_example/src/lib.rs
+  s_f1e46703a06425::t_7996556e691b0d 2,4,7,11-15,18-25
+sea-orm-macros/src/derives/arrow_schema.rs
+  s_f1e46703a06425::t_7996556e691b0d 26-29,65-67,73-74,132,201-203,211-215,269-273,288-291,319-321,339-345
+examples/loco_starter/migration/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 23
+src/database/tracing_spans.rs
+  s_f1e46703a06425::t_7996556e691b0d 123
+examples/jsonrpsee_example/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 14-15
+sea-orm-macros/src/derives/util.rs
+  s_f1e46703a06425::t_7996556e691b0d 7,9-10,202,233-249
+examples/tonic_example/entity/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 17
+sea-orm-migration/src/migrator/exec.rs
+  s_f1e46703a06425::t_7996556e691b0d 2,13,96-106,184-225,250-251,253-266,296-297,299-312
+sea-orm-sync/src/database/transaction.rs
+  s_f1e46703a06425::t_7996556e691b0d 2-8,11-12,42,92-101,105,589,605-620
+sea-orm-macros/src/derives/active_model_ex.rs
+  s_f1e46703a06425::t_7996556e691b0d 7,10,53,55-56,73,75-76,164,190,711,713-714
+sea-orm-migration/src/manager.rs
+  s_f1e46703a06425::t_7996556e691b0d 8,51-71
+changelog/2.0.0-rc.34.md
+  s_f1e46703a06425::t_7996556e691b0d 1-45
+sea-orm-migration/src/migrator.rs
+  s_f1e46703a06425::t_7996556e691b0d 14,150-152,160-163,171-174,183-185,193-195,203-205
+examples/tonic_example/migration/Cargo.toml
+  s_f1e46703a06425::t_7996556e691b0d 23
+sea-orm-migration/tests/common/migrator/mod.rs
+  s_f1e46703a06425::t_7996556e691b0d 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "ebee4e6102738dee588d0c3fc53567a81f8f44f8",
+  "prompts": {},
+  "sessions": {
+    "s_64c182eb86dc9e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e9a50-f152-74c2-bc71-2f973915b762",
+        "model": "gpt-5.5"
+      },
+      "human_author": "Zed <hi@zed.dev>"
+    },
+    "s_f1e46703a06425": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e9a51-a958-7913-a420-730183a6b10f",
+        "model": "gpt-5.5"
+      },
+      "human_author": "Zed <hi@zed.dev>"
+    }
+  }
+}
