@@ -62,7 +62,7 @@ sea-orm-macros = { version = "~2.0.0-rc.38", path = "sea-orm-macros", default-fe
     "async",
     "strum",
 ] }
-sea-query = { version = "1.0.0", default-features = false, features = [
+sea-query = { version = "=1.0.0", default-features = false, features = [
     "thread-safe",
     "hashable-value",
     "backend-mysql",
@@ -70,8 +70,8 @@ sea-query = { version = "1.0.0", default-features = false, features = [
     "backend-sqlite",
     "sea-orm",
 ] }
-sea-query-sqlx = { version = "0.8", default-features = false, optional = true }
-sea-schema = { version = "0.18.0", default-features = false, features = [
+sea-query-sqlx = { version = "=0.8.1", default-features = false, optional = true }
+sea-schema = { version = "=0.18.0", default-features = false, features = [
     "discovery",
     "writer",
     "probe",
@@ -238,5 +238,8 @@ with-uuid = ["uuid", "sea-query/with-uuid", "sea-query-sqlx?/with-uuid"]
 
 # This allows us to develop using a local version of sea-query
 [patch.crates-io]
-# sea-query = { path = "../sea-query" }
-# sea-query = { git = "https://github.com/SeaQL/sea-query", branch = "master" }
+sea-query = { git = "https://github.com/marlon-costa-dc/sea-query.git", tag = "1.0.0-dc.2" }
+sea-query-derive = { git = "https://github.com/marlon-costa-dc/sea-query.git", tag = "1.0.0-dc.2" }
+sea-query-sqlx = { git = "https://github.com/marlon-costa-dc/sea-query.git", tag = "1.0.0-dc.2" }
+sea-schema = { git = "https://github.com/marlon-costa-dc/sea-schema.git", tag = "0.18.0-dc.2" }
+sea-schema-derive = { git = "https://github.com/marlon-costa-dc/sea-schema.git", tag = "0.18.0-dc.2" }
