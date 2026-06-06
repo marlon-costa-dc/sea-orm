@@ -1105,7 +1105,90 @@ pub trait ActiveModelBehavior: ActiveModelTrait {
     }
 }
 
-/// A Trait for any type that can be converted into an ActiveModel
+/// A Trait for any type that can be converted into an `ActiveModel`,
+/// can be derived using `DeriveIntoActiveModel`.
+///
+/// ## Derive Macro Example
+///
+/// ```rust
+/// use sea_orm::DeriveIntoActiveModel;
+/// mod fruit {
+///     use sea_orm::entity::prelude::*;
+///     #[derive(Clone, Debug, PartialEq, DeriveEntityModel)]
+///     #[sea_orm(table_name = "fruit")]
+///     pub struct Model {
+///         #[sea_orm(primary_key)]
+///         pub id: i32,
+///         pub name: String,
+///         pub cake_id: Option<i32>,
+///     }
+///     #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+///     pub enum Relation {}
+///     impl ActiveModelBehavior for ActiveModel {}
+/// }
+///
+/// #[derive(DeriveIntoActiveModel)]
+/// #[sea_orm(active_model = "fruit::ActiveModel")]
+/// struct NewFruit {
+///     name: String,
+///     // `id` and `cake_id` are omitted - they become `NotSet`
+/// }
+/// ```
+///
+/// ## `set(...)` - always set absent ActiveModel fields
+///
+/// ```rust
+/// # mod fruit {
+/// #     use sea_orm::entity::prelude::*;
+/// #     #[derive(Clone, Debug, PartialEq, DeriveEntityModel)]
+/// #     #[sea_orm(table_name = "fruit")]
+/// #     pub struct Model {
+/// #         #[sea_orm(primary_key)]
+/// #         pub id: i32,
+/// #         pub name: String,
+/// #         pub cake_id: Option<i32>,
+/// #     }
+/// #     #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+/// #     pub enum Relation {}
+/// #     impl ActiveModelBehavior for ActiveModel {}
+/// # }
+/// use sea_orm::DeriveIntoActiveModel;
+///
+/// #[derive(DeriveIntoActiveModel)]
+/// #[sea_orm(active_model = "fruit::ActiveModel", set(cake_id = "None"))]
+/// struct NewFruit {
+///     name: String,
+///     // `cake_id` is not on the struct, but will always be `Set(None)`
+/// }
+/// ```
+///
+/// ## `default = "expr"` - fallback for `Option<T>` struct fields
+///
+/// ```rust
+/// # mod fruit {
+/// #     use sea_orm::entity::prelude::*;
+/// #     #[derive(Clone, Debug, PartialEq, DeriveEntityModel)]
+/// #     #[sea_orm(table_name = "fruit")]
+/// #     pub struct Model {
+/// #         #[sea_orm(primary_key)]
+/// #         pub id: i32,
+/// #         pub name: String,
+/// #         pub cake_id: Option<i32>,
+/// #     }
+/// #     #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+/// #     pub enum Relation {}
+/// #     impl ActiveModelBehavior for ActiveModel {}
+/// # }
+/// use sea_orm::DeriveIntoActiveModel;
+///
+/// #[derive(DeriveIntoActiveModel)]
+/// #[sea_orm(active_model = "fruit::ActiveModel")]
+/// struct UpdateFruit {
+///     /// `Some("Apple")` -> `Set("Apple")`, `None` ->`Set("Unnamed")`
+///     #[sea_orm(default = "String::from(\"Unnamed\")")]
+///     name: Option<String>,
+/// }
+/// ```
 pub trait IntoActiveModel<A>
 where
     A: ActiveModelTrait,
@@ -1385,6 +1468,487 @@ mod tests {
                 id: NotSet,
                 name: NotSet,
                 cake_id: NotSet,
+            }
+        );
+    }
+
+    #[test]
+    #[cfg(feature = "macros")]
+    fn test_derive_into_active_model_set_single() {
+        use crate as sea_orm;
+        use crate::entity::prelude::*;
+
+        #[derive(DeriveIntoActiveModel)]
+        #[sea_orm(active_model = "fruit::ActiveModel", set(cake_id = "None"))]
+        struct NewFruit {
+            name: String,
+        }
+
+        assert_eq!(
+            NewFruit {
+                name: "Apple".to_owned(),
+            }
+            .into_active_model(),
+            fruit::ActiveModel {
+                id: NotSet,
+                name: Set("Apple".to_owned()),
+                cake_id: Set(None),
+            }
+        );
+    }
+
+    #[test]
+    #[cfg(feature = "macros")]
+    fn test_derive_into_active_model_set_multiple() {
+        use crate as sea_orm;
+        use crate::entity::prelude::*;
+
+        #[derive(DeriveIntoActiveModel)]
+        #[sea_orm(
+            active_model = "fruit::ActiveModel",
+            set(name = "String::from(\"cherry\")", cake_id = "None")
+        )]
+        struct IdOnlyFruit {
+            id: i32,
+        }
+        assert_eq!(
+            IdOnlyFruit { id: 1 }.into_active_model(),
+            fruit::ActiveModel {
+                id: Set(1),
+                name: Set("cherry".to_owned()),
+                cake_id: Set(None),
+            }
+        );
+
+        #[derive(DeriveIntoActiveModel)]
+        #[sea_orm(
+            active_model = "fruit::ActiveModel",
+            set(name = "String::from(\"cherry\")"),
+            set(cake_id = "None")
+        )]
+        struct IdOnlyFruit2 {
+            id: i32,
+        }
+        assert_eq!(
+            IdOnlyFruit2 { id: 1 }.into_active_model(),
+            fruit::ActiveModel {
+                id: Set(1),
+                name: Set("cherry".to_owned()),
+                cake_id: Set(None),
+            }
+        );
+    }
+
+    #[test]
+    #[cfg(feature = "macros")]
+    fn test_derive_into_active_model_set_separate_attrs() {
+        use crate as sea_orm;
+        use crate::entity::prelude::*;
+
+        #[derive(DeriveIntoActiveModel)]
+        #[sea_orm(
+            active_model = "fruit::ActiveModel",
+            set(name = "String::from(\"cherry\")")
+        )]
+        #[sea_orm(set(cake_id = "None"))]
+        struct IdOnlyFruit {
+            id: i32,
+        }
+
+        assert_eq!(
+            IdOnlyFruit { id: 1 }.into_active_model(),
+            fruit::ActiveModel {
+                id: Set(1),
+                name: Set("cherry".to_owned()),
+                cake_id: Set(None),
+            }
+        );
+    }
+
+    #[test]
+    #[cfg(feature = "macros")]
+    fn test_derive_into_active_model_ignore() {
+        use crate as sea_orm;
+        use crate::entity::prelude::*;
+
+        #[derive(DeriveIntoActiveModel)]
+        #[sea_orm(active_model = "fruit::ActiveModel")]
+        struct NewFruit {
+            name: String,
+            cake_id: i32,
+            #[sea_orm(ignore)]
+            _extra: String,
+        }
+
+        assert_eq!(
+            NewFruit {
+                name: "Apple".to_owned(),
+                cake_id: 1,
+                _extra: "ignored".to_owned(),
+            }
+            .into_active_model(),
+            fruit::ActiveModel {
+                id: NotSet,
+                name: Set("Apple".to_owned()),
+                cake_id: Set(Some(1)),
+            }
+        );
+    }
+
+    #[test]
+    #[cfg(feature = "macros")]
+    fn test_derive_into_active_model_skip() {
+        use crate as sea_orm;
+        use crate::entity::prelude::*;
+
+        #[derive(DeriveIntoActiveModel)]
+        #[sea_orm(active_model = "fruit::ActiveModel")]
+        struct NewFruit {
+            name: String,
+            #[sea_orm(skip)]
+            _extra: String,
+        }
+
+        assert_eq!(
+            NewFruit {
+                name: "Apple".to_owned(),
+                _extra: "skipped".to_owned(),
+            }
+            .into_active_model(),
+            fruit::ActiveModel {
+                id: NotSet,
+                name: Set("Apple".to_owned()),
+                cake_id: NotSet,
+            }
+        );
+    }
+
+    #[test]
+    #[cfg(feature = "macros")]
+    fn test_derive_into_active_model_set_and_ignore() {
+        use crate as sea_orm;
+        use crate::entity::prelude::*;
+
+        #[derive(DeriveIntoActiveModel)]
+        #[sea_orm(active_model = "fruit::ActiveModel", set(cake_id = "Some(42)"))]
+        struct NewFruit {
+            name: String,
+            #[sea_orm(ignore)]
+            _extra: String,
+        }
+
+        assert_eq!(
+            NewFruit {
+                name: "Apple".to_owned(),
+                _extra: "ignored".to_owned(),
+            }
+            .into_active_model(),
+            fruit::ActiveModel {
+                id: NotSet,
+                name: Set("Apple".to_owned()),
+                cake_id: Set(Some(42)),
+            }
+        );
+    }
+
+    #[test]
+    #[cfg(feature = "macros")]
+    fn test_derive_into_active_model_foreign_ignore() {
+        use serde::{Deserialize, Serialize};
+
+        use crate as sea_orm;
+        use crate::entity::prelude::*;
+
+        #[derive(DeriveIntoActiveModel, Serialize, Deserialize)]
+        #[sea_orm(active_model = "fruit::ActiveModel")]
+        struct NewFruit {
+            #[sea_orm(ignore)]
+            id: i32,
+            name: String,
+            #[serde(skip)]
+            cake_id: Option<i32>,
+        }
+
+        assert_eq!(
+            NewFruit {
+                id: 1.to_owned(),
+                name: "Apple".to_owned(),
+                cake_id: Some(42)
+            }
+            .into_active_model(),
+            fruit::ActiveModel {
+                id: NotSet,
+                name: Set("Apple".to_owned()),
+                cake_id: Set(Some(42)),
+            }
+        );
+    }
+
+    #[test]
+    #[cfg(feature = "macros")]
+    fn test_derive_into_active_model_exhaustive() {
+        use crate as sea_orm;
+        use crate::entity::prelude::*;
+
+        #[derive(DeriveIntoActiveModel)]
+        #[sea_orm(active_model = "fruit::ActiveModel", exhaustive, set(cake_id = "None"))]
+        struct FullFruit {
+            id: i32,
+            name: String,
+        }
+
+        assert_eq!(
+            FullFruit {
+                id: 1,
+                name: "Apple".to_owned(),
+            }
+            .into_active_model(),
+            fruit::ActiveModel {
+                id: Set(1),
+                name: Set("Apple".to_owned()),
+                cake_id: Set(None),
+            }
+        );
+    }
+
+    #[test]
+    #[cfg(feature = "macros")]
+    fn test_derive_into_active_model_multiple_sets() {
+        use crate as sea_orm;
+        use crate::entity::prelude::*;
+
+        const DEFULT_CAKE_ID: i32 = 1;
+        #[derive(DeriveIntoActiveModel)]
+        #[sea_orm(
+            active_model = "fruit::ActiveModel",
+            exhaustive,
+            set(cake_id = "Some(DEFULT_CAKE_ID)")
+        )]
+        struct FullFruit {
+            id: i32,
+            name: String,
+        }
+
+        assert_eq!(
+            FullFruit {
+                id: 1,
+                name: "Apple".to_owned(),
+            }
+            .into_active_model(),
+            fruit::ActiveModel {
+                id: Set(1),
+                name: Set("Apple".to_owned()),
+                cake_id: Set(Some(1)),
+            }
+        );
+    }
+
+    #[test]
+    #[cfg(feature = "macros")]
+    fn test_derive_into_active_model_field_empty_default() {
+        use crate as sea_orm;
+        use crate::entity::prelude::*;
+
+        #[derive(DeriveIntoActiveModel)]
+        #[sea_orm(active_model = "fruit::ActiveModel")]
+        struct NewFruit {
+            #[sea_orm(default)]
+            name: Option<String>,
+        }
+
+        // Some(v) -> Set(v)
+        assert_eq!(
+            NewFruit {
+                name: Some("Apple".to_owned()),
+            }
+            .into_active_model(),
+            fruit::ActiveModel {
+                id: NotSet,
+                name: Set("Apple".to_owned()),
+                cake_id: NotSet,
+            }
+        );
+
+        // None -> Set(fallback)
+        assert_eq!(
+            NewFruit { name: None }.into_active_model(),
+            fruit::ActiveModel {
+                id: NotSet,
+                name: Set("".to_owned()),
+                cake_id: NotSet,
+            }
+        );
+    }
+
+    #[test]
+    #[cfg(feature = "macros")]
+    fn test_derive_into_active_model_field_custom_option() {
+        use crate as sea_orm;
+        use crate::entity::prelude::*;
+        mod foreign_crate {
+            #[derive(Debug, Clone, PartialEq, Eq)]
+            pub enum CustomOption<T> {
+                None,
+                Some(T),
+            }
+
+            impl From<CustomOption<String>> for Option<String> {
+                fn from(option: CustomOption<String>) -> Self {
+                    match option {
+                        CustomOption::None => Option::None,
+                        CustomOption::Some(value) => value.into(),
+                    }
+                }
+            }
+        }
+        use foreign_crate::CustomOption;
+
+        #[derive(DeriveIntoActiveModel)]
+        #[sea_orm(active_model = "fruit::ActiveModel")]
+        struct NewFruit {
+            #[sea_orm(default)]
+            name: CustomOption<String>,
+        }
+
+        // Some(v) -> Set(v)
+        assert_eq!(
+            NewFruit {
+                name: CustomOption::Some("Apple".to_owned()),
+            }
+            .into_active_model(),
+            fruit::ActiveModel {
+                id: NotSet,
+                name: Set("Apple".to_owned()),
+                cake_id: NotSet,
+            }
+        );
+
+        // None -> Set(fallback)
+        assert_eq!(
+            NewFruit {
+                name: CustomOption::None
+            }
+            .into_active_model(),
+            fruit::ActiveModel {
+                id: NotSet,
+                name: Set("".to_owned()),
+                cake_id: NotSet,
+            }
+        );
+    }
+
+    #[test]
+    #[cfg(feature = "macros")]
+    fn test_derive_into_active_model_field_default_some() {
+        use crate as sea_orm;
+        use crate::entity::prelude::*;
+
+        #[derive(DeriveIntoActiveModel)]
+        #[sea_orm(active_model = "fruit::ActiveModel")]
+        struct NewFruit {
+            #[sea_orm(default = "String::from(\"Unnamed\")")]
+            name: Option<String>,
+        }
+
+        // Some(v) -> Set(v)
+        assert_eq!(
+            NewFruit {
+                name: Some("Apple".to_owned()),
+            }
+            .into_active_model(),
+            fruit::ActiveModel {
+                id: NotSet,
+                name: Set("Apple".to_owned()),
+                cake_id: NotSet,
+            }
+        );
+
+        // None -> Set(fallback)
+        assert_eq!(
+            NewFruit { name: None }.into_active_model(),
+            fruit::ActiveModel {
+                id: NotSet,
+                name: Set("Unnamed".to_owned()),
+                cake_id: NotSet,
+            }
+        );
+    }
+
+    #[test]
+    #[cfg(feature = "macros")]
+    fn test_derive_into_active_model_field_default_with_set() {
+        use crate as sea_orm;
+        use crate::entity::prelude::*;
+
+        #[derive(DeriveIntoActiveModel)]
+        #[sea_orm(active_model = "fruit::ActiveModel", set(cake_id = "Some(99)"))]
+        struct NewFruit {
+            #[sea_orm(default = "String::from(\"Unnamed\")")]
+            name: Option<String>,
+            #[sea_orm(ignore)]
+            _extra: String,
+        }
+
+        assert_eq!(
+            NewFruit {
+                name: Some("Apple".to_owned()),
+                _extra: "ignored".to_owned(),
+            }
+            .into_active_model(),
+            fruit::ActiveModel {
+                id: NotSet,
+                name: Set("Apple".to_owned()),
+                cake_id: Set(Some(99)),
+            }
+        );
+
+        assert_eq!(
+            NewFruit {
+                name: None,
+                _extra: "ignored".to_owned(),
+            }
+            .into_active_model(),
+            fruit::ActiveModel {
+                id: NotSet,
+                name: Set("Unnamed".to_owned()),
+                cake_id: Set(Some(99)),
+            }
+        );
+    }
+
+    #[test]
+    #[cfg(feature = "macros")]
+    fn test_derive_into_active_model_field_default_exhaustive() {
+        use crate as sea_orm;
+        use crate::entity::prelude::*;
+
+        #[derive(DeriveIntoActiveModel)]
+        #[sea_orm(active_model = "fruit::ActiveModel", exhaustive, set(cake_id = "None"))]
+        struct NewFruit {
+            id: i32,
+            #[sea_orm(default = "String::from(\"Unnamed\")")]
+            name: Option<String>,
+        }
+
+        assert_eq!(
+            NewFruit {
+                id: 1,
+                name: Some("Apple".to_owned()),
+            }
+            .into_active_model(),
+            fruit::ActiveModel {
+                id: Set(1),
+                name: Set("Apple".to_owned()),
+                cake_id: Set(None),
+            }
+        );
+
+        assert_eq!(
+            NewFruit { id: 2, name: None }.into_active_model(),
+            fruit::ActiveModel {
+                id: Set(2),
+                name: Set("Unnamed".to_owned()),
+                cake_id: Set(None),
             }
         );
     }

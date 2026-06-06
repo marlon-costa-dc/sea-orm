@@ -81,6 +81,10 @@ impl SqlxPostgresConnector {
             sqlx_opts = sqlx_opts.application_name(application_name);
         }
 
+        if let Some(timeout) = options.statement_timeout {
+            sqlx_opts = sqlx_opts.options([("statement_timeout", timeout.as_millis().to_string())]);
+        }
+
         if let Some(f) = &options.pg_opts_fn {
             sqlx_opts = f(sqlx_opts);
         }
@@ -106,6 +110,7 @@ impl SqlxPostgresConnector {
 
         let lazy = options.connect_lazy;
         let after_connect = options.after_connect.clone();
+        let pg_pool_opts_fn = options.pg_pool_opts_fn.clone();
         let mut pool_options = options.sqlx_pool_options();
 
         if let Some(sql) = set_search_path_sql {
@@ -118,7 +123,9 @@ impl SqlxPostgresConnector {
                 })
             });
         }
-
+        if let Some(f) = &pg_pool_opts_fn {
+            pool_options = f(pool_options);
+        }
         let pool = if lazy {
             pool_options.connect_lazy_with(sqlx_opts)
         } else {
@@ -387,6 +394,7 @@ impl crate::DatabaseTransaction {
             metric_callback,
             isolation_level,
             access_mode,
+            None,
         )
         .await
     }
@@ -622,12 +630,16 @@ pub(crate) fn from_sqlx_postgres_row_to_proxy_row(row: &sqlx::postgres::PgRow) -
                                 }),
                         ),
 
+                        #[cfg(feature = "with-json")]
                         "JSON" | "JSONB" => Value::Json(
                             row.try_get::<Option<serde_json::Value>, _>(c.ordinal())
                                 .expect("Failed to get json")
                                 .map(Box::new),
                         ),
-                        #[cfg(any(feature = "json-array", feature = "postgres-array"))]
+                        #[cfg(all(
+                            feature = "with-json",
+                            any(feature = "json-array", feature = "postgres-array")
+                        ))]
                         "JSON[]" | "JSONB[]" => Value::Array(
                             sea_query::ArrayType::Json,
                             row.try_get::<Option<Vec<serde_json::Value>>, _>(c.ordinal())
@@ -811,8 +823,8 @@ pub(crate) fn from_sqlx_postgres_row_to_proxy_row(row: &sqlx::postgres::PgRow) -
                                 .expect("Failed to get timestamptz"),
                         ),
                         #[cfg(all(feature = "with-time", not(feature = "with-chrono")))]
-                        "TIMESTAMPTZ" => Value::TimeDateTime(
-                            row.try_get::<Option<time::PrimitiveDateTime>, _>(c.ordinal())
+                        "TIMESTAMPTZ" => Value::TimeDateTimeWithTimeZone(
+                            row.try_get::<Option<time::OffsetDateTime>, _>(c.ordinal())
                                 .expect("Failed to get timestamptz"),
                         ),
 
@@ -837,13 +849,13 @@ pub(crate) fn from_sqlx_postgres_row_to_proxy_row(row: &sqlx::postgres::PgRow) -
                             feature = "postgres-array"
                         ))]
                         "TIMESTAMPTZ[]" => Value::Array(
-                            sea_query::ArrayType::TimeDateTime,
-                            row.try_get::<Option<Vec<time::PrimitiveDateTime>>, _>(c.ordinal())
+                            sea_query::ArrayType::TimeDateTimeWithTimeZone,
+                            row.try_get::<Option<Vec<time::OffsetDateTime>>, _>(c.ordinal())
                                 .expect("Failed to get timestamptz array")
                                 .map(|vals| {
                                     Box::new(
                                         vals.into_iter()
-                                            .map(|val| Value::TimeDateTime(Some(val)))
+                                            .map(|val| Value::TimeDateTimeWithTimeZone(Some(val)))
                                             .collect(),
                                     )
                                 }),

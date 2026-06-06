@@ -12,6 +12,14 @@ mod strum;
 
 mod raw_sql;
 
+#[proc_macro]
+pub fn raw_sql(input: TokenStream) -> TokenStream {
+    match raw_sql::expand(input) {
+        Ok(token_stream) => token_stream.into(),
+        Err(e) => e.to_compile_error().into(),
+    }
+}
+
 /// Create an Entity
 ///
 /// ### Usage
@@ -139,14 +147,18 @@ pub fn derive_entity(input: TokenStream) -> TokenStream {
 #[proc_macro_derive(DeriveEntityModel, attributes(sea_orm, seaography))]
 pub fn derive_entity_model(input: TokenStream) -> TokenStream {
     let DeriveInput {
-        ident, data, attrs, ..
+        vis,
+        ident,
+        data,
+        attrs,
+        ..
     } = parse_macro_input!(input as DeriveInput);
 
     if ident != "Model" {
         panic!("Struct name must be Model");
     }
 
-    let mut ts: TokenStream = derives::expand_derive_entity_model(&data, &attrs)
+    let mut ts: TokenStream = derives::expand_derive_entity_model(&vis, &data, &attrs)
         .unwrap_or_else(Error::into_compile_error)
         .into();
 
@@ -157,7 +169,7 @@ pub fn derive_entity_model(input: TokenStream) -> TokenStream {
     );
 
     ts.extend::<TokenStream>(
-        derives::expand_derive_active_model(&ident, &data)
+        derives::expand_derive_active_model(&vis, &ident, &data)
             .unwrap_or_else(Error::into_compile_error)
             .into(),
     );
@@ -170,14 +182,18 @@ pub fn derive_entity_model(input: TokenStream) -> TokenStream {
 #[proc_macro_derive(DeriveModelEx, attributes(sea_orm, seaography))]
 pub fn derive_model_ex(input: TokenStream) -> TokenStream {
     let DeriveInput {
-        ident, data, attrs, ..
+        vis,
+        ident,
+        data,
+        attrs,
+        ..
     } = parse_macro_input!(input as DeriveInput);
 
     if ident != "ModelEx" {
         panic!("Struct name must be ModelEx");
     }
 
-    derives::expand_derive_model_ex(ident, data, attrs)
+    derives::expand_derive_model_ex(&vis, ident, data, attrs)
         .unwrap_or_else(Error::into_compile_error)
         .into()
 }
@@ -187,14 +203,18 @@ pub fn derive_model_ex(input: TokenStream) -> TokenStream {
 #[proc_macro_derive(DeriveActiveModelEx, attributes(sea_orm, seaography))]
 pub fn derive_active_model_ex(input: TokenStream) -> TokenStream {
     let DeriveInput {
-        ident, data, attrs, ..
+        vis,
+        ident,
+        data,
+        attrs,
+        ..
     } = parse_macro_input!(input as DeriveInput);
 
     if ident != "ModelEx" {
         panic!("Struct name must be ModelEx");
     }
 
-    derives::expand_derive_active_model_ex(&ident, &data, &attrs)
+    derives::expand_derive_active_model_ex(&vis, &ident, &data, &attrs)
         .unwrap_or_else(Error::into_compile_error)
         .into()
 }
@@ -446,15 +466,129 @@ pub fn derive_model(input: TokenStream) -> TokenStream {
 #[cfg(feature = "derive")]
 #[proc_macro_derive(DeriveActiveModel, attributes(sea_orm))]
 pub fn derive_active_model(input: TokenStream) -> TokenStream {
-    let DeriveInput { ident, data, .. } = parse_macro_input!(input);
+    let DeriveInput {
+        vis, ident, data, ..
+    } = parse_macro_input!(input);
 
-    match derives::expand_derive_active_model(&ident, &data) {
+    match derives::expand_derive_active_model(&vis, &ident, &data) {
         Ok(ts) => ts.into(),
         Err(e) => e.to_compile_error().into(),
     }
 }
 
-/// Derive into an active model
+/// Will implement [`IntoActiveModel`] for a struct, allowing conversion into an ActiveModel.
+/// This is useful for "form" or "input" structs (like from API requests) that turn into
+/// an entity's ActiveModel but may omit some fields or provide optional values with defaults.
+///
+/// ## Usage:
+///
+/// ```rust
+/// # mod fruit {
+/// #     use sea_orm::entity::prelude::*;
+/// #     #[derive(Clone, Debug, PartialEq, DeriveEntityModel)]
+/// #     #[sea_orm(table_name = "fruit")]
+/// #     pub struct Model {
+/// #         #[sea_orm(primary_key)]
+/// #         pub id: i32,
+/// #         pub name: String,
+/// #         pub cake_id: Option<i32>,
+/// #     }
+/// #     #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+/// #     pub enum Relation {}
+/// #     impl ActiveModelBehavior for ActiveModel {}
+/// # }
+/// use sea_orm::entity::prelude::*;
+///
+/// #[derive(DeriveIntoActiveModel)]
+/// #[sea_orm(active_model = "fruit::ActiveModel")]
+/// struct NewFruit {
+///     name: String,
+///     // `id` and `cake_id` are omitted - they become `NotSet`
+/// }
+/// ```
+///
+/// ## `set(...)` - always set absent ActiveModel fields
+///
+/// ```rust
+/// # mod fruit {
+/// #     use sea_orm::entity::prelude::*;
+/// #     #[derive(Clone, Debug, PartialEq, DeriveEntityModel)]
+/// #     #[sea_orm(table_name = "fruit")]
+/// #     pub struct Model {
+/// #         #[sea_orm(primary_key)]
+/// #         pub id: i32,
+/// #         pub name: String,
+/// #         pub cake_id: Option<i32>,
+/// #     }
+/// #     #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+/// #     pub enum Relation {}
+/// #     impl ActiveModelBehavior for ActiveModel {}
+/// # }
+/// use sea_orm::entity::prelude::*;
+///
+/// #[derive(DeriveIntoActiveModel)]
+/// #[sea_orm(active_model = "fruit::ActiveModel", set(cake_id = "None"))]
+/// struct NewFruit {
+///     name: String,
+///     // `cake_id` is not on the struct, but will always be `Set(None)`
+/// }
+/// ```
+///
+/// ## `default = "expr"` - fallback for `Option<T>` struct fields
+///
+/// ```rust
+/// # mod fruit {
+/// #     use sea_orm::entity::prelude::*;
+/// #     #[derive(Clone, Debug, PartialEq, DeriveEntityModel)]
+/// #     #[sea_orm(table_name = "fruit")]
+/// #     pub struct Model {
+/// #         #[sea_orm(primary_key)]
+/// #         pub id: i32,
+/// #         pub name: String,
+/// #         pub cake_id: Option<i32>,
+/// #     }
+/// #     #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+/// #     pub enum Relation {}
+/// #     impl ActiveModelBehavior for ActiveModel {}
+/// # }
+/// use sea_orm::entity::prelude::*;
+///
+/// #[derive(DeriveIntoActiveModel)]
+/// #[sea_orm(active_model = "fruit::ActiveModel")]
+/// struct UpdateFruit {
+///     /// `Some("Apple")` -> `Set("Apple")`, `None` ->`Set("Unnamed")`
+///     #[sea_orm(default = "String::from(\"Unnamed\")")]
+///     name: Option<String>,
+/// }
+/// ```
+///
+/// ## Combining `set(...)`, `default`, `ignore`, and `exhaustive`
+///
+/// ```rust
+/// # mod fruit {
+/// #     use sea_orm::entity::prelude::*;
+/// #     #[derive(Clone, Debug, PartialEq, DeriveEntityModel)]
+/// #     #[sea_orm(table_name = "fruit")]
+/// #     pub struct Model {
+/// #         #[sea_orm(primary_key)]
+/// #         pub id: i32,
+/// #         pub name: String,
+/// #         pub cake_id: Option<i32>,
+/// #     }
+/// #     #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+/// #     pub enum Relation {}
+/// #     impl ActiveModelBehavior for ActiveModel {}
+/// # }
+/// use sea_orm::entity::prelude::*;
+///
+/// #[derive(DeriveIntoActiveModel)]
+/// #[sea_orm(active_model = "fruit::ActiveModel", exhaustive, set(cake_id = "None"))]
+/// struct NewFruit {
+///     id: i32,
+///     #[sea_orm(default = "String::from(\"Unnamed\")")]
+///     name: Option<String>,
+/// }
+/// ```
 #[cfg(feature = "derive")]
 #[proc_macro_derive(DeriveIntoActiveModel, attributes(sea_orm))]
 pub fn derive_into_active_model(input: TokenStream) -> TokenStream {
@@ -549,15 +683,18 @@ pub fn derive_active_model_behavior(input: TokenStream) -> TokenStream {
 /// All macro attributes listed below have to be annotated in the form of `#[sea_orm(attr = value)]`.
 ///
 /// - For enum
-///     - `rs_type`: Define `ActiveEnum::Value`
+///     - `rs_type`: Define `ActiveEnum::Value` for non-native enums (`db_type != "Enum"`)
 ///         - Possible values: `String`, `i8`, `i16`, `i32`, `i64`, `u8`, `u16`, `u32`, `u64`
 ///         - Note that value has to be passed as string, i.e. `rs_type = "i8"`
 ///     - `db_type`: Define `ColumnType` returned by `ActiveEnum::db_type()`
-///         - Possible values: all available enum variants of `ColumnType`, e.g. `String(StringLen::None)`, `String(StringLen::N(1))`, `Integer`
+///         - Possible values: all available enum variants of `ColumnType`, e.g. `Enum`, `String(StringLen::None)`, `String(StringLen::N(1))`, `Integer`
 ///         - Note that value has to be passed as string, i.e. `db_type = "Integer"`
 ///     - `enum_name`: Define `String` returned by `ActiveEnum::name()`
 ///         - This attribute is optional with default value being the name of enum in camel-case
 ///         - Note that value has to be passed as string, i.e. `enum_name = "MyEnum"`
+///     - Constraints for native enums (`db_type = "Enum"`):
+///         - `rs_type` is optional; it defaults to `Enum`. If specified it must be `String` or `Enum`.
+///         - `num_value` and numeric discriminants are not allowed.
 ///
 /// - For enum variant
 ///     - `string_value` or `num_value`:
@@ -1176,14 +1313,6 @@ pub fn derive_arrow_schema(input: TokenStream) -> TokenStream {
         derive_input.data,
         derive_input.attrs,
     ) {
-        Ok(token_stream) => token_stream.into(),
-        Err(e) => e.to_compile_error().into(),
-    }
-}
-
-#[proc_macro]
-pub fn raw_sql(input: TokenStream) -> TokenStream {
-    match raw_sql::expand(input) {
         Ok(token_stream) => token_stream.into(),
         Err(e) => e.to_compile_error().into(),
     }
